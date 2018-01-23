@@ -82,7 +82,8 @@ CREATE TABLE payment_method (
 CREATE TABLE cart (
   id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES customer,
-  payment_method_id INTEGER REFERENCES payment_method
+  payment_method_id INTEGER REFERENCES payment_method,
+  is_delivery BOOLEAN
 );
 
 CREATE TABLE pizza_cart (
@@ -95,3 +96,10 @@ CREATE TABLE drink_cart (
   drink_id INTEGER REFERENCES drink
 );
 
+CREATE TABLE delivery (
+  id SERIAL PRIMARY KEY,
+  cart_id INTEGER REFERENCES cart,
+  cart_time TIMESTAMP(6),
+  address_id INTEGER REFERENCES address,
+  tip MONEY
+);
