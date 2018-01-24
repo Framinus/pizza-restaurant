@@ -314,16 +314,6 @@ const createCart = (customerId, paymentId, isHappyHour, isDelivery) => {
   RETURNING *`, [customerId, paymentId, isHappyHour, isDelivery])
 }
 
-const createPizzaCart = (cartId, pizzaId) => {
-  return db.one(`INSERT INTO pizza_cart (cart_id, pizza_id) VALUES ($1, $2)
-  RETURNING *`, [cartId, pizzaId])
-}
-
-const createDrinkCart = (cartId, drinkId) => {
-  return db.one(`INSERT INTO drink_cart (cart_id, drink_id) VALUES ($1, $2)
-  RETURNING *`, [cartId, drinkId])
-}
-
 const readCartById = (cartId) => {
   return db.one(`SELECT * FROM cart WHERE id=$1`, cartId)
 }
@@ -337,7 +327,54 @@ const deleteCartById = (cartId) => {
   return db.oneOrNone(`DELETE FROM cart WHERE id=$1`, cartId)
 }
 
-// Modify getSizePrice
-// Call above two functions, add results in JavaScript and insert results into createPizza
+const createPizzaCart = (cartId, pizzaId) => {
+  return db.one(`INSERT INTO pizza_cart (cart_id, pizza_id) VALUES ($1, $2)
+  RETURNING *`, [cartId, pizzaId])
+}
 
-module.exports = { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, createPhone, readPhoneById, editPhoneById, deletePhoneById, createSize, readAllSizes, readSizeById, updateSizeById, deleteSizeById, createCrust, readAllCrusts, readCrustById, updateCrustById, deleteCrustById, createIngredient, readAllIngredients, readIngredientById, updateIngredientById, deleteIngredientById, getPizzaIngredientPrice, getSizePrice, createPizza, readPizzaById, updatePizzaById, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference, createDrink, readAllDrinks, readDrinkById, updateDrinkById, deleteDrinkById, createCreditCard, readCreditCardByCustomerId, deleteCreditCard, createPaymentMethod, readPaymentMethodById, readAllPaymentMethods, updatePaymentMethodById, deletePaymentMethodById, createCart, createPizzaCart, createDrinkCart, readCartById, updateCartById, deleteCartById };
+const readPizzaCartById = (cartId) => {
+  return db.one(`SELECT * FROM pizza_cart WHERE cart_id=$1`, cartId)
+}
+
+const deletePizzaCartById = (cartId) => {
+  return db.oneOrNone(`DELETE FROM pizza_cart WHERE cart_id=$1`, cartId)
+}
+
+const createDrinkCart = (cartId, drinkId) => {
+  return db.one(`INSERT INTO drink_cart (cart_id, drink_id) VALUES ($1, $2)
+  RETURNING *`, [cartId, drinkId])
+}
+
+const readDrinkCartById = (cartId) => {
+  return db.one(`SELECT * FROM drink_cart WHERE cart_id=$1`, cartId)
+}
+
+const deleteDrinkCartById = (cartId) => {
+  return db.oneOrNone(`DELETE FROM drink_cart WHERE cart_id=$1`, cartId)
+}
+
+const createDelivery = (cartId, addressId, tip) => {
+  return db.one(`INSERT INTO delivery (cart_id, address_id, tip)
+    VALUES ($1, $2, $3)
+    RETURNING *`, [cartId, addressId, tip])
+}
+
+const readDeliveryById = (deliveryId) => {
+  return db.one(`SELECT * FROM delivery WHERE id=$1`, deliveryId)
+}
+
+const readAllDeliveries = () => {
+  return db.any(`SELECT * FROM delivery`)
+}
+
+const updateDeliveryById = (deliveryId, addressId, tip) => {
+  return db.one(`UPDATE delivery SET address_id=$2, tip=$3
+    WHERE id=$1`, [deliveryId, addressId, tip])
+}
+
+const deleteDeliveryById = (deliveryId) => {
+  return db.oneOrNone(`DELETE FROM delivery WHERE id=$1`)
+}
+
+
+module.exports = { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, createPhone, readPhoneById, editPhoneById, deletePhoneById, createSize, readAllSizes, readSizeById, updateSizeById, deleteSizeById, createCrust, readAllCrusts, readCrustById, updateCrustById, deleteCrustById, createIngredient, readAllIngredients, readIngredientById, updateIngredientById, deleteIngredientById, getPizzaIngredientPrice, getSizePrice, createPizza, readPizzaById, updatePizzaById, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference, createDrink, readAllDrinks, readDrinkById, updateDrinkById, deleteDrinkById, createCreditCard, readCreditCardByCustomerId, deleteCreditCard, createPaymentMethod, readPaymentMethodById, readAllPaymentMethods, updatePaymentMethodById, deletePaymentMethodById, createCart, createPizzaCart, createDrinkCart, readCartById, updateCartById, deleteCartById, readPizzaCartById, deletePizzaCartById, readDrinkCartById, deleteDrinkCartById, createDelivery, readAllDeliveries, readDeliveryById, updateDeliveryById, deleteDeliveryById };
