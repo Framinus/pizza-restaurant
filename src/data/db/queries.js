@@ -155,13 +155,21 @@ const deleteIngredientById = (id) => {
 
 // pizza queries
 
-const getPizzaPrice = (pizzaId) => {
-  return db.any(`SELECT ingredient.price
+const getPizzaIngredientPrice = (pizzaId) => {
+  return db.any(`SELECT SUM(ingredient.price)
     FROM ingredient
-    JOIN ingredient on ingredient.id = pizza_ingredient.ingredient_id
+    JOIN pizza_ingredient on ingredient.id = pizza_ingredient.ingredient_id
     WHERE pizza_ingredient.pizza_id=$1`, pizzaId)
 }
 
+const getSizePrice = (pizzaId) => {
+  return db.any(`SELECT size.price
+    FROM size
+    JOIN pizza on size.id = pizza.size_id
+    WHERE pizza.id=$1`, pizzaId)
+}
 
+// Modify getSizePrice
+// Call above two functions, add results in JavaScript and insert results into createPizza
 
 module.exports = { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, createPhone, readPhoneById, editPhoneById, deletePhoneById, createSize, readAllSizes, readSizeById, updateSizeById, deleteSizeById, createCrust, readAllCrusts, readCrustById, updateCrustById, deleteCrustById, createIngredient, readAllIngredients, readIngredientById, updateIngredientById, deleteIngredientById };
