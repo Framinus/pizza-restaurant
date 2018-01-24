@@ -46,8 +46,7 @@ CREATE TABLE pizza (
   id SERIAL PRIMARY KEY,
   size_id INTEGER REFERENCES size,
   crust_id INTEGER REFERENCES crust,
-  price MONEY,
-  is_happy_hour BOOLEAN
+  price MONEY
 );
 
 CREATE TABLE pizza_ingredient (
@@ -70,7 +69,7 @@ CREATE TABLE drink (
 
 CREATE TABLE credit_card (
   id SERIAL PRIMARY KEY,
-  card_number INTEGER NOT NULL
+  card_number TEXT NOT NULL
 );
 
 CREATE TABLE payment_method (
@@ -83,6 +82,7 @@ CREATE TABLE cart (
   id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES customer,
   payment_method_id INTEGER REFERENCES payment_method,
+  is_happy_hour BOOLEAN,
   is_delivery BOOLEAN
 );
 
