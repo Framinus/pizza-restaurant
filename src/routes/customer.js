@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress } = require('../data/db/queries')
+const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress, createPhone, readPhoneById, editPhoneById, deletePhoneById, addCustomerPhone } = require('../data/db/queries')
 
 router.post('/', (req, res) => {
   const { name, username, password } = req.body
@@ -70,6 +70,66 @@ router.post('/:id/address', (req, res) => {
     .catch((err) => {
       console.error(err);
       res.json({ msg: "error adding address" })
+    })
+})
+
+router.get('/:id/address', (req, res) => {
+  const { id } = req.params
+
+  readAddressById(id)
+    .then((address) => {
+      res.json({ address })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error reading address" })
+    })
+})
+
+router.put('/:customerId/address/:addressId/edit', (req, res) => {
+  const { addressId } = req.params
+  const { address } = req.body
+
+  editAddressById(addressId, address)
+    .then((editedAddress) => {
+      res.json({ editedAddress })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error editing address" })
+    })
+})
+
+router.delete('/:customerId/address/:addressId/delete', (req, res) => {
+  const { addressId } = req.params
+
+  deleteAddressById(addressId)
+    .then((deleted) => {
+      res.json({ deleted })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error deleting address" })
+    })
+})
+
+router.post('/:id/phone', (req, res) => {
+  const { id } = req.params
+  const { phone } = req.body
+
+  createPhone(phone)
+    .then((added) => {
+      addCustomerPhone(id, added.id)
+        .then((custPhone) => {
+          res.json({ custPhone })
+        })
+        .catch((err) => {
+          throw new Error(err);
+        })
+    })
+    .catch((err) => {
+      console.error(err)
+      res.json({ msg: "error adding phone "})
     })
 })
 
