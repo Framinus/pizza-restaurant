@@ -11,6 +11,7 @@ CREATE TABLE address (
 );
 
 CREATE TABLE customer_address (
+  id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES customer ON DELETE CASCADE,
   address_id INTEGER REFERENCES address
 );
@@ -21,6 +22,7 @@ CREATE TABLE phone_number (
 );
 
 CREATE TABLE customer_phone (
+  id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES customer ON DELETE CASCADE,
   phone_id INTEGER REFERENCES phone_number
 );
@@ -50,11 +52,13 @@ CREATE TABLE pizza (
 );
 
 CREATE TABLE pizza_ingredient (
+  id SERIAL PRIMARY KEY,
   pizza_id INTEGER REFERENCES pizza,
   ingredient_id INTEGER REFERENCES ingredient
 );
 
 CREATE TABLE preference (
+  id SERIAL PRIMARY KEY,
   customer_id INTEGER REFERENCES customer ON DELETE CASCADE,
   pizza_id INTEGER REFERENCES pizza
 );
@@ -83,15 +87,18 @@ CREATE TABLE cart (
   customer_id INTEGER REFERENCES customer ON DELETE CASCADE,
   payment_method_id INTEGER REFERENCES payment_method,
   is_happy_hour BOOLEAN,
-  is_delivery BOOLEAN
+  is_delivery BOOLEAN,
+  total_price MONEY
 );
 
 CREATE TABLE pizza_cart (
+  id SERIAL PRIMARY KEY,
   cart_id INTEGER REFERENCES cart,
   pizza_id INTEGER REFERENCES pizza
 );
 
 CREATE TABLE drink_cart (
+  id SERIAL PRIMARY KEY,
   cart_id INTEGER REFERENCES cart,
   drink_id INTEGER REFERENCES drink
 );
