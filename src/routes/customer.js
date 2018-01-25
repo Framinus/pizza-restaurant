@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById } = require('../data/db/queries')
+const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress } = require('../data/db/queries')
 
 router.post('/', (req, res) => {
   const { name, username, password } = req.body
@@ -39,7 +39,7 @@ router.put('/:id/edit', (req, res) => {
     })
 })
 
-// this is problematic because deleting a customer violates foreign key restraints in about 50 other functions.
+
 router.delete('/:id/delete', (req, res) => {
   const { id } = req.params
   deleteCustomerById(id)
@@ -49,6 +49,27 @@ router.delete('/:id/delete', (req, res) => {
     .catch((err) => {
       console.error(err)
       res.json({ msg: 'error deleting customer' })
+    })
+})
+
+// to add a customer address, we need to first add the address to the address database, and then add the resulting address id along with the customer information to the customer_address table.
+router.post('/:id/address', (req, res) => {
+  const { id } = req.params;
+  const { address } = req.body;
+  createAddress(address)
+    .then((added) => {
+      console.log('added', added.id);
+      addCustomerAddress(id, added.id)
+        .then((custAddress) => {
+          res.json({ custAddress })
+        })
+        .catch((err) => {
+          throw new Error(err);
+        })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error adding address" })
     })
 })
 
