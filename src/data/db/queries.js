@@ -30,7 +30,7 @@ const createAddress = (address) => {
   return db.one(`
     INSERT INTO address (address)
     VALUES ($1)
-    RETURNING *`, );
+    RETURNING *`, address);
 };
 
 const readAddressById = (id) => {
@@ -48,6 +48,10 @@ const deleteAddressById = (id) => {
   return db.oneOrNone(`DELETE FROM address
     WHERE id=$1`, id);
 };
+
+const addCustomerAddress = (custId, addressId) => {
+  return db.one(`INSERT INTO customer_address (customer_id, address_id) VALUES ($1, $2) RETURNING *`, [custId, addressId]);
+}
 
 // phone
 
@@ -377,4 +381,4 @@ const deleteDeliveryById = (deliveryId) => {
 }
 
 
-module.exports = { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, createPhone, readPhoneById, editPhoneById, deletePhoneById, createSize, readAllSizes, readSizeById, updateSizeById, deleteSizeById, createCrust, readAllCrusts, readCrustById, updateCrustById, deleteCrustById, createIngredient, readAllIngredients, readIngredientById, updateIngredientById, deleteIngredientById, getPizzaIngredientPrice, getSizePrice, createPizza, readPizzaById, updatePizzaById, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference, createDrink, readAllDrinks, readDrinkById, updateDrinkById, deleteDrinkById, createCreditCard, readCreditCardByCustomerId, deleteCreditCard, createPaymentMethod, readPaymentMethodById, readAllPaymentMethods, updatePaymentMethodById, deletePaymentMethodById, createCart, createPizzaCart, createDrinkCart, readCartById, updateCartById, deleteCartById, readPizzaCartById, deletePizzaCartById, readDrinkCartById, deleteDrinkCartById, createDelivery, readAllDeliveries, readDeliveryById, updateDeliveryById, deleteDeliveryById };
+module.exports = { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress, createPhone, readPhoneById, editPhoneById, deletePhoneById, createSize, readAllSizes, readSizeById, updateSizeById, deleteSizeById, createCrust, readAllCrusts, readCrustById, updateCrustById, deleteCrustById, createIngredient, readAllIngredients, readIngredientById, updateIngredientById, deleteIngredientById, getPizzaIngredientPrice, getSizePrice, createPizza, readPizzaById, updatePizzaById, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference, createDrink, readAllDrinks, readDrinkById, updateDrinkById, deleteDrinkById, createCreditCard, readCreditCardByCustomerId, deleteCreditCard, createPaymentMethod, readPaymentMethodById, readAllPaymentMethods, updatePaymentMethodById, deletePaymentMethodById, createCart, createPizzaCart, createDrinkCart, readCartById, updateCartById, deleteCartById, readPizzaCartById, deletePizzaCartById, readDrinkCartById, deleteDrinkCartById, createDelivery, readAllDeliveries, readDeliveryById, updateDeliveryById, deleteDeliveryById };
