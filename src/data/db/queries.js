@@ -16,7 +16,7 @@ const readCustomerById = (id) => {
 
 const editCustomerById = (id, name, username, password) => {
   return db.one(`UPDATE customer SET name=$2, username=$3, password=$4 WHERE id=$1
-  RETURNING *`, [name, username, password]);
+  RETURNING *`, [id, name, username, password]);
 };
 
 const deleteCustomerById = (id) => {
