@@ -133,4 +133,44 @@ router.post('/:id/phone', (req, res) => {
     })
 })
 
+router.get('/:id/phone', (req, res) => {
+  const { id } = req.params
+
+  readPhoneById(id)
+    .then((phone) => {
+      res.json({ phone })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error reading phone number" })
+    })
+})
+
+router.put('/:customerId/phone/:phoneId/edit', (req, res) => {
+  const { phoneId } = req.params
+  const { phone } = req.body
+
+  editPhoneById(phoneId, phone)
+    .then((editedPhone) => {
+      res.json({ editedPhone })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error editing phone number" })
+    })
+})
+
+router.delete('/:customerId/phone/:phoneId/delete', (req, res) => {
+  const { phoneId } = req.params
+
+  deletePhoneById(phoneId)
+    .then((deleted) => {
+      res.json({ deleted })
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: "error deleting phone number" })
+    })
+})
+
 module.exports = router;

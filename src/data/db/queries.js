@@ -180,7 +180,8 @@ const getSizePrice = (pizzaId) => {
 
 const createPizza = (sizeId, crustId, price) => {
   return db.one(`INSERT INTO pizza (size_id, crust_id, price)
-  VALUES ($1, $2, $3)`, [sizeId, crustId, price]);
+  VALUES ($1, $2, $3)
+  RETURNING *`, [sizeId, crustId, price]);
 };
 
 const readPizzaById = (pizzaId) => {
@@ -198,10 +199,9 @@ const deletePizzaById = (pizzaId) => {
 };
 
 const createPizzaIngredients = (pizzaId, ingredient) => {
-  return db.one(`INSERT INTO pizza_ingredient (ingredient_id)
-    VALUES ($1)
-    WHERE pizza_id=$2
-    RETURNING *`, [ingredient, pizzaId])
+  return db.one(`INSERT INTO pizza_ingredient (pizza_id, ingredient_id)
+    VALUES ($1, $2)
+    RETURNING *`, [pizzaId, ingredient])
 }
 
 const readPizzaIngredientsById = (pizzaId) => {
