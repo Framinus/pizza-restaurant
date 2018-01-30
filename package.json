@@ -10,6 +10,7 @@
     "db:drop": "dropdb pizza",
     "db:schema": "psql -d pizza < src/data/model/schema.sql",
     "db:seed": "psql -d pizza < src/data/model/seed.sql",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:schema && npm run db:seed",
     "test": "mocha --exit"
   },
   "author": "James and Alex",
