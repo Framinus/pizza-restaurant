@@ -1,4 +1,3 @@
-/* eslint-disable */
 const db = require('./db');
 
 // customer queries
@@ -7,7 +6,7 @@ const createCustomer = (name, username, password) => {
   return db.one(`
     INSERT INTO customer (name, username, password)
     VALUES ($1, $2, $3)
-    RETURNING *`, [name, username, password])
+    RETURNING *`, [name, username, password]);
 };
 
 const readCustomerById = (id) => {
@@ -37,7 +36,7 @@ const createAddress = (address) => {
 const readAddressById = (id) => {
   return db.one(`SELECT * FROM address
     WHERE id=$1`, id);
-}
+};
 
 const editAddressById = (id, address) => {
   return db.one(`UPDATE address SET address=$2
@@ -52,7 +51,7 @@ const deleteAddressById = (id) => {
 
 const addCustomerAddress = (custId, addressId) => {
   return db.one(`INSERT INTO customer_address (customer_id, address_id) VALUES ($1, $2) RETURNING *`, [custId, addressId]);
-}
+};
 
 // phone queries
 
@@ -66,7 +65,7 @@ const createPhone = (phone) => {
 const readPhoneById = (id) => {
   return db.one(`SELECT * FROM phone_number
     WHERE id=$1`, id);
-}
+};
 
 const editPhoneById = (id, phone) => {
   return db.one(`UPDATE phone_number SET phone_number=$2
@@ -81,8 +80,8 @@ const deletePhoneById = (id) => {
 
 const addCustomerPhone = (customerId, phoneId) => {
   return db.one(`INSERT INTO customer_phone (customer_id, phone_id) VALUES ($1, $2)
-    RETURNING *`, [customerId, phoneId])
-}
+    RETURNING *`, [customerId, phoneId]);
+};
 
 module.exports = {
   createCustomer,

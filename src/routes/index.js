@@ -1,10 +1,9 @@
-/* eslint-disable */
-const routes = require('express').Router()
+const routes = require('express').Router();
 
-const customer = require('./customer')
-const pizza = require('./pizza')
+const customer = require('./customer');
+const pizza = require('./pizza');
 
-routes.use('/customer', customer)
-routes.use('/pizza', pizza)
+routes.use('/customer', customer);
+routes.use('/pizza', pizza);
 
 module.exports = routes;

@@ -1,16 +1,15 @@
-/* eslint-disable */
-const db = require('./db')
+const db = require('./db');
 
 // size queries
 
 const createSize = (type, price) => {
   return db.one(`INSERT INTO size (type, price)
   VALUES ($1, $2)
-  RETURNING *`, [type, price])
+  RETURNING *`, [type, price]);
 };
 
 const readAllSizes = () => {
-  return db.any(`SELECT * FROM size`)
+  return db.any(`SELECT * FROM size`);
 };
 
 const readSizeById = (id) => {
@@ -20,11 +19,11 @@ const readSizeById = (id) => {
 
 const updateSizeById = (id, type, price) => {
   return db.one(`UPDATE size SET type=$2, price=$3
-    WHERE id=$1`, [id, type, price])
+    WHERE id=$1`, [id, type, price]);
 };
 
 const deleteSizeById = (id) => {
-  return db.oneOrNone(`DELETE FROM size WHERE id=$1`, id)
+  return db.oneOrNone(`DELETE FROM size WHERE id=$1`, id);
 };
 
 // crust queries
@@ -32,11 +31,11 @@ const deleteSizeById = (id) => {
 const createCrust = (type) => {
   return db.one(`INSERT INTO crust (type)
   VALUES ($1)
-  RETURNING *`, [type])
+  RETURNING *`, [type]);
 };
 
 const readAllCrusts = () => {
-  return db.any(`SELECT * FROM crust`)
+  return db.any(`SELECT * FROM crust`);
 };
 
 const readCrustById = (id) => {
@@ -46,11 +45,11 @@ const readCrustById = (id) => {
 
 const updateCrustById = (id, type) => {
   return db.one(`UPDATE crust SET type=$2
-    WHERE id=$1`, [id, type])
+    WHERE id=$1`, [id, type]);
 };
 
 const deleteCrustById = (id) => {
-  return db.oneOrNone(`DELETE FROM crust WHERE id=$1`, id)
+  return db.oneOrNone(`DELETE FROM crust WHERE id=$1`, id);
 };
 
 
@@ -59,11 +58,11 @@ const deleteCrustById = (id) => {
 const createIngredient = (name, price) => {
   return db.one(`INSERT INTO ingredient (name, price)
   VALUES ($1, $2)
-  RETURNING *`, [name, price])
+  RETURNING *`, [name, price]);
 };
 
 const readAllIngredients = () => {
-  return db.any(`SELECT * FROM ingredient`)
+  return db.any(`SELECT * FROM ingredient`);
 };
 
 const readIngredientById = (id) => {
@@ -73,11 +72,11 @@ const readIngredientById = (id) => {
 
 const updateIngredientById = (id, name, price) => {
   return db.one(`UPDATE ingredient SET name=$2, price=$3
-    WHERE id=$1`, [id, name, price])
+    WHERE id=$1`, [id, name, price]);
 };
 
 const deleteIngredientById = (id) => {
-  return db.oneOrNone(`DELETE FROM ingredient WHERE id=$1`, id)
+  return db.oneOrNone(`DELETE FROM ingredient WHERE id=$1`, id);
 };
 
 // pizza queries
@@ -119,24 +118,24 @@ const deletePizzaById = (pizzaId) => {
 const createPizzaIngredients = (pizzaId, ingredient) => {
   return db.one(`INSERT INTO pizza_ingredient (pizza_id, ingredient_id)
     VALUES ($1, $2)
-    RETURNING *`, [pizzaId, ingredient])
-}
+    RETURNING *`, [pizzaId, ingredient]);
+};
 
 const readPizzaIngredientsById = (pizzaId) => {
   return db.any(`SELECT * FROM pizza_ingredient
-    WHERE pizza_id=$1`, [pizzaId])
-}
+    WHERE pizza_id=$1`, [pizzaId]);
+};
 
 const deletePizzaIngredientById = (pizzaId, ingredientId) => {
   return db.oneOrNone(`DELETE FROM pizza_ingredient
-    WHERE pizza_id=$1 AND ingredient_id=$2 `, [pizzaId, ingredientId])
-}
+    WHERE pizza_id=$1 AND ingredient_id=$2 `, [pizzaId, ingredientId]);
+};
 
 const createPreference = (customerId, pizzaId) => {
   return db.one(`INSERT INTO preference (pizza_id, ingredient_id)
     VALUES ($1, $2)
-    RETURNING *`, [customerId, pizzaId])
-}
+    RETURNING *`, [customerId, pizzaId]);
+};
 
 const readTypeAndCrustPreferences = (customerId) => {
   return db.any(`SELECT size.type, crust.type
@@ -145,8 +144,8 @@ const readTypeAndCrustPreferences = (customerId) => {
     JOIN size ON pizza.size_id = size.id
     JOIN crust ON pizza.crust_id = crust.id
     WHERE preference.customer_id=$1
-    ORDER BY pizza.id`, customerId)
-}
+    ORDER BY pizza.id`, customerId);
+};
 
 const readIngredientPreferences = (customerId) => {
   return db.any(`SELECT ingredient.name
@@ -154,14 +153,14 @@ const readIngredientPreferences = (customerId) => {
     JOIN pizza ON preference.pizza_id = pizza.id
     JOIN pizza_ingredient ON pizza.id = pizza_ingredient.pizza_id
     JOIN ingredient ON ingredient.id = pizza_ingredient.ingredient_id
-    WHERE preference.customer_id=$1`, customerId)
-}
+    WHERE preference.customer_id=$1`, customerId);
+};
 
 // we need to discuss how we are going to handle the update preference functionality.
 
 const deletePreference = (customerId, pizzaId) => {
   return db.oneOrNone(`DELETE FROM preference
-    WHERE customer_id=$1 AND pizza_id=$2`, [customerId, pizzaId])
+    WHERE customer_id=$1 AND pizza_id=$2`, [customerId, pizzaId]);
 };
 
 module.exports = {
