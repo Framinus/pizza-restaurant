@@ -1,6 +1,7 @@
+/* eslint-disable */
 const router = require('express').Router();
 
-const { readAllSizes, readAllCrusts, readAllIngredients, getPizzaIngredientPrice, getSizePrice, createPizza, readPizza, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference} = require('../data/db/queries')
+const { readAllSizes, readAllCrusts, readAllIngredients, getPizzaIngredientPrice, getSizePrice, createPizza, readPizza, deletePizzaById, createPizzaIngredients, readPizzaIngredientsById, deletePizzaIngredientById, createPreference, readTypeAndCrustPreferences, readIngredientPreferences, deletePreference} = require('../data/db/pizza')
 
 router.get('/sizes', (req, res) => {
   readAllSizes()

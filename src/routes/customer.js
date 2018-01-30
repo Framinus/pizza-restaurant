@@ -1,5 +1,6 @@
+/* eslint-disable */
 const router = require('express').Router();
-const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress, createPhone, readPhoneById, editPhoneById, deletePhoneById, addCustomerPhone } = require('../data/db/queries')
+const { createCustomer, readCustomerById, editCustomerById, deleteCustomerById, createAddress, readAddressById, editAddressById, deleteAddressById, addCustomerAddress, createPhone, readPhoneById, editPhoneById, deletePhoneById, addCustomerPhone } = require('../data/db/customer')
 
 router.post('/', (req, res) => {
   const { name, username, password } = req.body
