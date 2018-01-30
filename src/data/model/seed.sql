@@ -72,10 +72,6 @@ INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VA
 INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (2, 2, true, false);
 INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (3, 3, false, false);
 
-INSERT INTO pizza_cart (cart_id, pizza_id) VALUES (1, 1);
-INSERT INTO pizza_cart (cart_id, pizza_id) VALUES (2, 2);
-INSERT INTO pizza_cart (cart_id, pizza_id) VALUES (3, 3);
-
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (1, 1);
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (2, 2);
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (3, 3);
