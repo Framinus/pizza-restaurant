@@ -67,19 +67,6 @@ const deleteCartById = (cartId) => {
   return db.oneOrNone(`DELETE FROM cart WHERE id=$1`, cartId);
 };
 
-const createPizzaCart = (cartId, pizzaId) => {
-  return db.one(`INSERT INTO pizza_cart (cart_id, pizza_id) VALUES ($1, $2)
-  RETURNING *`, [cartId, pizzaId]);
-};
-
-const readPizzaCartById = (cartId) => {
-  return db.one(`SELECT * FROM pizza_cart WHERE cart_id=$1`, cartId);
-};
-
-const deletePizzaCartById = (cartId) => {
-  return db.oneOrNone(`DELETE FROM pizza_cart WHERE cart_id=$1`, cartId);
-};
-
 const createDrinkCart = (cartId, drinkId) => {
   return db.one(`INSERT INTO drink_cart (cart_id, drink_id) VALUES ($1, $2)
   RETURNING *`, [cartId, drinkId]);
@@ -103,13 +90,10 @@ module.exports = {
   updatePaymentMethodById,
   deletePaymentMethodById,
   createCart,
-  createPizzaCart,
   createDrinkCart,
   readCartById,
   updateCartById,
   deleteCartById,
-  readPizzaCartById,
-  deletePizzaCartById,
   readDrinkCartById,
   deleteDrinkCartById,
 };
