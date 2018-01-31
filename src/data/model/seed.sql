@@ -39,9 +39,23 @@ INSERT INTO ingredient (name, price) VALUES ('sausage', .10);
 INSERT INTO ingredient (name, price) VALUES ('chicken', .10);
 INSERT INTO ingredient (name, price) VALUES ('anchovies', .10);
 
-INSERT INTO pizza (size_id, crust_id, price) VALUES (1, 1, 10);
-INSERT INTO pizza (size_id, crust_id, price) VALUES (3, 2, 14.30);
-INSERT INTO pizza (size_id, crust_id, price) VALUES (2, 1, 12.60);
+INSERT INTO credit_card (card_number) VALUES ('1234123412341234');
+
+INSERT INTO payment_method (card_id, type) VALUES (1, 'credit');
+INSERT INTO payment_method (type) VALUES ('cash');
+INSERT INTO payment_method (type) VALUES ('ether');
+
+INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (1, 1, false, true);
+INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (2, 2, true, true);
+INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (3, 3, false, false);
+
+INSERT INTO pizza (size_id, crust_id, cart_id) VALUES (1, 1, 1);
+INSERT INTO pizza (size_id, crust_id, cart_id) VALUES (3, 2, 2);
+INSERT INTO pizza (size_id, crust_id, cart_id) VALUES (2, 1, 3);
+
+UPDATE pizza SET price=10 WHERE id=1;
+UPDATE pizza SET price=14 WHERE id=2;
+UPDATE pizza SET price=12 WHERE id=3;
 
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES (1, 1);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES (2, 2);
@@ -54,6 +68,9 @@ INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES (3, 5);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES (3, 6);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES (3, 7);
 
+UPDATE pizza SET price=14.30 WHERE id=2;
+UPDATE pizza SET price=12.60 WHERE id=3;
+
 INSERT INTO preference (customer_id, pizza_id) VALUES (1, 1);
 INSERT INTO preference (customer_id, pizza_id) VALUES (2, 2);
 INSERT INTO preference (customer_id, pizza_id) VALUES (3, 3);
@@ -62,20 +79,13 @@ INSERT INTO drink (name, manufacturer, supplier, price) VALUES ('Pepsi', 'Pepsic
 INSERT INTO drink (name, manufacturer, supplier, price) VALUES ('Sunkist', 'Snapple', 'Tracy', 10);
 INSERT INTO drink (name, manufacturer, supplier, price) VALUES ('Honest Tea', 'CocaCola', 'Nature''s Own', 15);
 
-INSERT INTO credit_card (card_number) VALUES ('1234123412341234');
-
-INSERT INTO payment_method (card_id, type) VALUES (1, 'credit');
-INSERT INTO payment_method (type) VALUES ('cash');
-INSERT INTO payment_method (type) VALUES ('ether');
-
-INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (1, 1, false, true);
-INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (2, 2, true, false);
-INSERT INTO cart (customer_id, payment_method_id, is_happy_hour, is_delivery) VALUES (3, 3, false, false);
-
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (1, 1);
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (2, 2);
 INSERT INTO drink_cart (cart_id, drink_id) VALUES (3, 3);
 
+UPDATE cart SET total_price=20 WHERE id=1;
+UPDATE cart SET total_price=24.30 WHERE id=2;
+UPDATE cart SET total_price=27.60 WHERE id=3;
+
 INSERT INTO delivery (cart_id, address_id, tip) VALUES (1, 1, 2);
 INSERT INTO delivery (cart_id, address_id, tip) VALUES (2, 2, 4);
-INSERT INTO delivery (cart_id, address_id, tip) VALUES (3, 3, 6);
