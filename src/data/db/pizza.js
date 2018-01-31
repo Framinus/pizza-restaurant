@@ -95,10 +95,10 @@ const getSizePrice = (pizzaId) => {
     WHERE pizza.id=$1`, pizzaId);
 };
 
-const createPizza = (sizeId, crustId, price) => {
-  return db.one(`INSERT INTO pizza (size_id, crust_id, price)
+const createPizza = (sizeId, crustId, cartId) => {
+  return db.one(`INSERT INTO pizza (size_id, crust_id, cart_id)
   VALUES ($1, $2, $3)
-  RETURNING *`, [sizeId, crustId, price]);
+  RETURNING *`, [sizeId, crustId, cartId]);
 };
 
 const readPizzaById = (pizzaId) => {
