@@ -24,13 +24,13 @@ router.post('/creditcard/create', (req, res) => {
   const saltRounds = 10;
   bcrypt.hash(cardNumber, saltRounds)
     .then((hashedNum) => {
-      createCreditCard(hashedNum)
+      return createCreditCard(hashedNum)
         .then((card) => {
           res.json({ msg: 'card successfully added' });
         })
         .catch((err) => {
           console.error(err);
-          res.json({ msg: 'error adding credit card' });
+          res.json({ msg: 'error adding credit card', err });
         });
     });
 });
@@ -44,7 +44,7 @@ router.get('/creditcard/:customerId', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error retrieving credit card' });
+      res.json({ msg: 'error retrieving credit card', err });
     });
 });
 
@@ -56,7 +56,7 @@ router.delete('/creditcard/:cardId/delete', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error deleting card. please check the id and try again.' });
+      res.json({ msg: 'error deleting card. please check the id and try again.', err });
     });
 });
 
@@ -71,7 +71,7 @@ router.post('/paymentmethod/create', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'an error occured while creating new payment method' });
+      res.json({ msg: 'an error occured while creating new payment method', err });
     });
 });
 
@@ -84,7 +84,7 @@ router.get('/paymentmethod/:id', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error retrieving payment method' });
+      res.json({ msg: 'error retrieving payment method', err });
     });
 });
 
@@ -96,7 +96,7 @@ router.get('/paymentmethod', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error retrieving all payment methods' });
+      res.json({ msg: 'error retrieving all payment methods', err });
     });
 });
 
@@ -110,7 +110,7 @@ router.put('/paymentmethod/:id', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error updating payment method!' });
+      res.json({ msg: 'error updating payment method!', err });
     });
 });
 
@@ -123,20 +123,98 @@ router.delete('/paymentmethod/:id/delete', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.json({ msg: 'error successfully deleting card' });
+      res.json({ msg: 'error successfully deleting card', err });
+    });
+});
+
+// cart queries
+
+// create a new cart
+// this function requires some discussion as to where the inputs are coming from. are customers logged in before they can place an order? if so, are we saving their ids as session variables to pass into the subsequent order pages? would the payment id also be saved this way?
+router.post('/create', (req, res) => {
+  const { customerId, paymentId, isHappyHour, isDelivery } = req.body;
+  return createCart(customerId, paymentId, isHappyHour, isDelivery)
+    .then((newCart) => {
+      res.json({ newCart });
+    })
+    .catch((err) => {
+      res.json({ msg: 'error creating cart', err });
     });
 });
 
 // get a cart by id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  readCartById(id)
+  return readCartById(id)
     .then((cartData) => {
       res.json({ cartData });
     })
     .catch((err) => {
+      res.json({ msg: 'Error finding cart', err });
+    });
+});
+
+// updates the cart by id.
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { paymentId, isDelivery } = req.body;
+  return updateCartById(id, paymentId, isDelivery)
+    .then((updatedCart) => {
+      res.json({ updatedCart });
+    })
+    .catch((err) => {
+      res.json({ msg: 'Error updating cart', err });
+    });
+});
+
+// deletes the cart by id
+router.delete('/:id', (req, res) => {
+  const { id } = req.body;
+  return deleteCartById(id)
+    .then((deleted) => {
+      res.json({ msg: 'The cart has been successfully deleted', deleted });
+    })
+    .catch((err) => {
       console.error(err);
-      res.json({ msg: 'Error finding cart' });
+      res.json({ msg: 'Error deleting cart', err });
+    });
+});
+
+// drink cart queries
+
+// create a drink cart entry with a cart id and a drink id.
+router.post('/drink/create', (req, res) => {
+  const { cartId, drinkId } = req.body;
+  return createDrinkCart(cartId, drinkId)
+    .then((newDrink) => {
+      res.json({ newDrink });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ msg: 'error creating drink cart', err });
+    });
+});
+
+// get all drinks in the cart by cart id.
+router.get('/drink/:id', (req, res) => {
+  const { id } = req.params;
+  return readDrinkCartById(id)
+    .then((drinkCart) => {
+      res.json({ drinkCart });
+    })
+    .catch((err) => {
+      res.json({ msg: 'error retrieving drink cart', err });
+    });
+});
+
+router.delete('/drink/:id/delete', (req, res) => {
+  const { id } = req.params;
+  return deleteDrinkCartById(id)
+    .then((deletedCart) => {
+      res.json({ msg: 'drink cart has been successfully deleted', deletedCart });
+    })
+    .catch((err) => {
+      res.json({ msg: 'error deleting drink cart', err });
     });
 });
 

@@ -73,7 +73,7 @@ const createDrinkCart = (cartId, drinkId) => {
 };
 
 const readDrinkCartById = (cartId) => {
-  return db.one(`SELECT * FROM drink_cart WHERE cart_id=$1`, cartId);
+  return db.any(`SELECT * FROM drink_cart WHERE cart_id=$1`, cartId);
 };
 
 const deleteDrinkCartById = (cartId) => {
